@@ -36,7 +36,7 @@ $forkMe = ->(choice) {
 			run = %q|bash -c|;
 	end;
 	
-	cmd = %Q|#{ %x~type #{run}~.chomp.sub(%r~^ruby\sis\s~,%q||) } #{__dir__}/#{$apps[choice]}|;
+	cmd = %Q|#{ %x~type #{run}~.chomp.sub(%r~^#{run}\sis\s~,%q||) } #{__dir__}/#{$apps[choice]}|;
 	r, w = IO.pipe;
 
 	$spawned[Process.spawn(cmd, [:out, :err] => log).to_i] = $apps.delete($apps[choice]);
