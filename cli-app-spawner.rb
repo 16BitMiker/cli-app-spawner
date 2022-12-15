@@ -1,4 +1,4 @@
-#!/opt/homebrew/opt/ruby/bin/ruby -rjson -rcolorize
+#!/usr/bin/env ruby 
 #          _ _                               _ _         
 #    /\/\ (_) | _____ _ __    /\/\   ___  __| (_) __ _   
 #   /    \| | |/ / _ \ '__|  /    \ / _ \/ _` | |/ _` |  
@@ -7,6 +7,11 @@
 #   
 # App Spawner v0.1 (rubys / perl / bash)
 # by https://miker.media
+
+# ####################################### GLOBALS
+
+require 'json'
+require 'colorize'
 
 # ####################################### GLOBALS
 
@@ -36,7 +41,8 @@ $forkMe = ->(choice) {
 			run = %q|bash -c|;
 	end;
 	
-	cmd = %Q|#{ %x~type #{run}~.chomp.sub(%r~^#{run}\sis\s~,%q||) } #{__dir__}/#{$apps[choice]}|;
+
+	cmd = %Q|#{ %x~bash -c "type #{run}"~.chomp.sub(%r~^#{run}\sis\s~,%q||) } #{__dir__}/#{$apps[choice]}|;
 	r, w = IO.pipe;
 
 	$spawned[Process.spawn(cmd, [:out, :err] => log).to_i] = $apps.delete($apps[choice]);
